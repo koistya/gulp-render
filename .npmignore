@@ -1,0 +1,10 @@
+*.tgz
+.idea
+.editorconfig
+.gitattributes
+.jshintrc
+.npmignore
+.travis.yml
+gulpfile.js
+test.js
+SampleComponent.jsx
