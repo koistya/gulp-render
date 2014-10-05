@@ -13,18 +13,20 @@ $ npm install gulp-render --save-dev
 ## How to Use
 
 #### Example 1:
+
 ```js
 var gulp = require('gulp');
 var render = require('gulp-render');
 
 gulp.task('default', function() {
   return gulp.src('src/pages/**/*.jsx')
-    .pipe(render({template: 'src/index.html'}))
+    .pipe(render({template: 'src/pages/_template.html'}))
     .pipe(gulp.dest('build'));
 });
 ```
 
 #### Example 2:
+
 ```js
 var gulp = require('gulp');
 var render = require('gulp-render');
@@ -42,13 +44,15 @@ gulp.task('default', function() {
 });
 ```
 
-#### Sampe React Component (`src/pages/SomePage.jsx`)
+#### React Component Sample (`src/pages/SomePage.jsx`)
+
 ```jsx
 /**
  * @jsx React.DOM
  */
 
 var React = require('react');
+var DefaultLayout = require('../layouts/DefaultLayout.jsx');
 
 var SomePage = React.createClass({
   getDefaultProps() {
@@ -58,10 +62,12 @@ var SomePage = React.createClass({
   },
   render() {
     return (
-      <div className="container">
-        <h1>{this.props.title}</h1>
-        <p>This is a demo page.</p>
-      </div>
+      <DefaultLayout title={this.props.title}">
+        <div className="container">
+          <h1>React Component Sample</h1>
+          <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+      </DefaultLayout>
     );
   }
 });
@@ -77,7 +83,7 @@ option | values | default
 -------|--------|---------
 `template` | [Lo-Dash template](http://lodash.com/docs#template) string or filename | `null`
 `harmony` | `true`: enable ES6 features | `true`
-`hyphenate` | `true`: AboutUs.jsx -> about-us.html | `true`
+`hyphenate` | `true`: SomePage.jsx -> some-page.html | `true`
 
 ## Related Projects
 
