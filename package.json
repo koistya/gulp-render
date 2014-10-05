@@ -1,7 +1,7 @@
 {
   "name": "gulp-render",
   "description": "Pre-render React components at compile time.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/koistya/gulp-render",
   "repository": {
     "type": "git",

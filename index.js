@@ -8,10 +8,12 @@
 
 var through = require('through2');
 var gutil = require('gulp-util');
+var path = require('path');
 var fs = require('fs');
 var _ = require('lodash');
 var React = require('react');
 var react = require('react-tools');
+var hyphenate = require('react/lib/hyphenate');
 var template = _.template;
 var PluginError = gutil.PluginError;
 var Module = module.constructor;
@@ -76,7 +78,15 @@ function Plugin(options) {
         }
 
         file.contents = new Buffer(markup);
-        file.path = gutil.replaceExtension(file.path, '.html');
+        var filename = gutil.replaceExtension(file.path, '.html');
+
+        if (typeof options.hyphenate === 'undefined' || options.hyphenate) {
+          filename = hyphenate(path.basename(filename));
+          filename = filename.lastIndexOf('-', 0) === 0 ? filename.substring(1) : filename;
+          filename = path.join(path.dirname(file.path), filename);
+        }
+
+        file.path = filename;
       }
 
     }

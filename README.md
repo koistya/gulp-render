@@ -77,6 +77,7 @@ option | values | default
 -------|--------|---------
 `template` | [Lo-Dash template](http://lodash.com/docs#template) string or filename | `null`
 `harmony` | `true`: enable ES6 features | `true`
+`hyphenate` | `true`: AboutUs.jsx -> about-us.html | `true`
 
 ## Related Projects
 
