@@ -12,7 +12,7 @@ var path = require('path');
 var fs = require('fs');
 var _ = require('lodash');
 var React = require('react');
-var react = require('react-tools');
+var ReactTools = require('react-tools');
 var hyphenate = require('react/lib/hyphenate');
 var template = _.template;
 var PluginError = gutil.PluginError;
@@ -37,7 +37,7 @@ function Plugin(options) {
   var reactTransform = function(module, filename) {
     if (filename.indexOf('node_modules') === -1) {
       var src = fs.readFileSync(filename, {encoding: 'utf8'});
-      src = react.transform(src, reactOptions);
+      src = ReactTools.transform(src, reactOptions);
       module._compile(src, filename);
     } else {
       originalJsTransform(module, filename);
@@ -59,36 +59,40 @@ function Plugin(options) {
 
       if (file.isBuffer()) {
 
-        var contents = file.contents.toString('utf8');
-        contents = react.transform(contents, reactOptions);
-        var m = new Module();
-        m.id = file.path;
-        m.filename = file.path;
-        m.paths = module.paths.slice(1);
-        m._compile(contents, file.path);
-        var Component = m.exports;
-        var markup = React.renderComponentToString(new Component());
+        try {
+          var contents = file.contents.toString('utf8');
+          contents = ReactTools.transform(contents, reactOptions);
+          var m = new Module();
+          m.id = file.path;
+          m.filename = file.path;
+          m.paths = module.paths.slice(1);
+          m._compile(contents, file.path);
+          var Component = m.exports;
+          var markup = React.renderComponentToString(new Component());
 
-        if (options.template) {
-          var data = Component.defaultProps || {};
-          data.body = markup;
-          data.title = data.title || '';
-          data.description = data.description || '';
-          markup = template(options.template, data);
+          if (options.template) {
+            var data = Component.defaultProps || {};
+            data.body = markup;
+            data.title = data.title || '';
+            data.description = data.description || '';
+            markup = template(options.template, data);
+          }
+
+          file.contents = new Buffer(markup);
+          var filename = gutil.replaceExtension(file.path, '.html');
+
+          if (typeof options.hyphenate === 'undefined' || options.hyphenate) {
+            filename = hyphenate(path.basename(filename));
+            filename = filename.lastIndexOf('-', 0) === 0 ? filename.substring(1) : filename;
+            filename = path.join(path.dirname(file.path), filename);
+          }
+
+          file.path = filename;
+        } catch (err) {
+          this.emit('error', new PluginError(PLUGIN_NAME, err));
+          return cb();
         }
-
-        file.contents = new Buffer(markup);
-        var filename = gutil.replaceExtension(file.path, '.html');
-
-        if (typeof options.hyphenate === 'undefined' || options.hyphenate) {
-          filename = hyphenate(path.basename(filename));
-          filename = filename.lastIndexOf('-', 0) === 0 ? filename.substring(1) : filename;
-          filename = path.join(path.dirname(file.path), filename);
-        }
-
-        file.path = filename;
       }
-
     }
 
     // Make sure the file goes through the next gulp plugin
