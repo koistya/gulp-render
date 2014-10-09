@@ -21,6 +21,12 @@ var Module = module.constructor;
 // Constants
 var PLUGIN_NAME = 'gulp-render';
 
+// Helper function(s)
+var appendJsxPragma = function(filename, contents) {
+  return filename.match(/\.jsx$/) || filename.match(/[\-\.]react\.js$/) ?
+    '/**@jsx React.DOM*/' + contents : contents;
+};
+
 // Plugin level function (dealing with files)
 function Plugin(options) {
 
@@ -37,6 +43,7 @@ function Plugin(options) {
   var reactTransform = function(module, filename) {
     if (filename.indexOf('node_modules') === -1) {
       var src = fs.readFileSync(filename, {encoding: 'utf8'});
+      src = appendJsxPragma(filename, src);
       src = ReactTools.transform(src, reactOptions);
       module._compile(src, filename);
     } else {
@@ -61,6 +68,7 @@ function Plugin(options) {
 
         try {
           var contents = file.contents.toString('utf8');
+          contents = appendJsxPragma(file.path, contents);
           contents = ReactTools.transform(contents, reactOptions);
           var m = new Module();
           m.id = file.path;
