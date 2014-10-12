@@ -62,7 +62,7 @@ var SomePage = React.createClass({
   },
   render() {
     return (
-      <DefaultLayout title={this.props.title}">
+      <DefaultLayout title={this.props.title}>
         <div className="container">
           <h1>React Component Sample</h1>
           <p>Lorem ipsum dolor sit amet.</p>
