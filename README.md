@@ -57,17 +57,16 @@ var DefaultLayout = require('../layouts/DefaultLayout.jsx');
 var SomePage = React.createClass({
   getDefaultProps() {
     return {
-      title: 'Some Page'
+      title: 'Some Page',
+      layout: DefaultLayout
     }
   },
   render() {
     return (
-      <DefaultLayout title={this.props.title}>
-        <div className="container">
-          <h1>React Component Sample</h1>
-          <p>Lorem ipsum dolor sit amet.</p>
-        </div>
-      </DefaultLayout>
+      <div className="container">
+        <h1>React Component Sample</h1>
+        <p>Lorem ipsum dolor sit amet.</p>
+      </div>
     );
   }
 });
@@ -79,11 +78,11 @@ module.exports = SomePage;
 
 #### `render(options)`
 
-option | values | default
--------|--------|---------
-`template` | [Lo-Dash template](http://lodash.com/docs#template) string or filename | `null`
-`harmony` | `true`: enable ES6 features | `true`
-`hyphenate` | `true`: SomePage.jsx -> some-page.html | `true`
+option      | values                                                  | default
+------------|---------------------------------------------------------|---------
+`template`  | [Lo-Dash template](http://lodash.com/docs#template) string or filename | `null`
+`harmony`   | `true`: enable ES6 features                             | `true`
+`hyphenate` | `true`: SomePage.jsx -> some-page.html                  | `true`
 
 ## Related Projects
 

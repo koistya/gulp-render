@@ -12,6 +12,7 @@ var path = require('path');
 var fs = require('fs');
 var _ = require('lodash');
 var React = require('react');
+var copyProperties = require('react/lib/copyProperties');
 var ReactTools = require('react-tools');
 var hyphenate = require('react/lib/hyphenate');
 var template = _.template;
@@ -21,11 +22,27 @@ var Module = module.constructor;
 // Constants
 var PLUGIN_NAME = 'gulp-render';
 
-// Helper function(s)
-var appendJsxPragma = function(filename, contents) {
+/**
+ * Append @jsx pragma to JSX files
+ */
+function appendJsxPragma(filename, contents) {
   return filename.match(/\.jsx$/) || filename.match(/[\-\.]react\.js$/) ?
-    '/**@jsx React.DOM*/' + contents : contents;
-};
+  '/**@jsx React.DOM*/' + contents : contents;
+}
+
+/**
+ * Check if Page component has a layout property; and if yes, wrap the page
+ * into the specified layout, then render to a string.
+ */
+function renderToString(page) {
+  var child, props = {};
+  while (page.defaultProps.layout) {
+    child = page(props, child);
+    copyProperties(props, page.defaultProps);
+    page = page.defaultProps.layout;
+  }
+  return React.renderComponentToString(page(props, child));
+}
 
 // Plugin level function (dealing with files)
 function Plugin(options) {
@@ -76,7 +93,7 @@ function Plugin(options) {
           m.paths = module.paths.slice(1);
           m._compile(contents, file.path);
           var Component = m.exports;
-          var markup = React.renderComponentToString(new Component());
+          var markup = renderToString(Component);
 
           if (options.template) {
             var data = Component.defaultProps || {};
