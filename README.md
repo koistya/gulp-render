@@ -2,9 +2,9 @@
 
 > Pre-render [React](https://facebook.github.io/react/) components at compile time.
 
-[![NPM](https://nodei.co/npm/gulp-render.png?compact=true)](https://www.npmjs.org/package/gulp-render)
-
 ## How to Install
+
+[![NPM](https://nodei.co/npm/gulp-render.png?compact=true)](https://www.npmjs.org/package/gulp-render)
 
 ```sh
 $ npm install gulp-render --save-dev
@@ -47,10 +47,6 @@ gulp.task('default', function() {
 #### React Component Sample (`src/pages/SomePage.jsx`)
 
 ```jsx
-/**
- * @jsx React.DOM
- */
-
 var React = require('react');
 var DefaultLayout = require('../layouts/DefaultLayout.jsx');
 
