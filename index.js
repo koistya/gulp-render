@@ -1,7 +1,9 @@
-/*!
- * gulp-render | https://github.com/koistya/gulp-render
+/*
+ * gulp-render
+ * https://github.com/koistya/gulp-render
  *
- * Copyright (c) Konstantin Tarkus (@koistya).  See LICENSE.txt
+ * Copyright (c) 2014 Konstantin Tarkus
+ * Licensed under the MIT license
  */
 
 'use strict';
@@ -12,7 +14,6 @@ var path = require('path');
 var fs = require('fs');
 var _ = require('lodash');
 var React = require('react');
-var copyProperties = require('react/lib/copyProperties');
 var ReactTools = require('react-tools');
 var hyphenate = require('react/lib/hyphenate');
 var template = _.template;
@@ -35,13 +36,13 @@ function appendJsxPragma(filename, contents) {
  * into the specified layout, then render to a string.
  */
 function renderToString(page) {
-  var child, props = {};
-  while (page.defaultProps.layout) {
-    child = page(props, child);
-    copyProperties(props, page.defaultProps);
+  var child = null, props = {};
+  while (page.defaultProps && page.defaultProps.layout) {
+    child = React.createElement(page, props, child);
+    _.extend(props, page.defaultProps);
     page = page.defaultProps.layout;
   }
-  return React.renderComponentToString(page(props, child));
+  return React.renderToString(React.createElement(page, props, child));
 }
 
 // Plugin level function (dealing with files)
