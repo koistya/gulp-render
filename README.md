@@ -14,7 +14,7 @@ $ npm install gulp-render --save-dev
 
 #### Example 1:
 
-```js
+```javascript
 var gulp = require('gulp');
 var render = require('gulp-render');
 
@@ -27,7 +27,7 @@ gulp.task('default', function() {
 
 #### Example 2:
 
-```js
+```javascript
 var gulp = require('gulp');
 var render = require('gulp-render');
 
@@ -38,7 +38,8 @@ gulp.task('default', function() {
         '<!doctype html>' +
         '<html><head><title><%=title%></title></head>' +
         '<body><%=body%></body></html>',
-      harmony: false
+      harmony: false,
+      data: {title: 'Page Title'}
     }))
     .pipe(gulp.dest('build'));
 });
@@ -46,16 +47,13 @@ gulp.task('default', function() {
 
 #### React Component Sample (`src/pages/SomePage.jsx`)
 
-```jsx
+```javascript
 var React = require('react');
 var DefaultLayout = require('../layouts/DefaultLayout.jsx');
 
 var SomePage = React.createClass({
-  getDefaultProps() {
-    return {
-      title: 'Some Page',
-      layout: DefaultLayout
-    }
+  statics: {
+    layout: DefaultLayout
   },
   render() {
     return (
@@ -79,10 +77,12 @@ option      | values                                                  | default
 `template`  | [Lo-Dash template](http://lodash.com/docs#template) string or filename | `null`
 `harmony`   | `true`: enable ES6 features                             | `true`
 `hyphenate` | `true`: SomePage.jsx -> some-page.html                  | `true`
+`data     ` | E.g. `{title: 'Hello'}` or `function(file) { ... }`     | `object` or `function`
 
 ## Related Projects
 
-[React.js Starter Kit](https://github.com/kriasoft/react-starter-kit)
+[React.js Starter Kit](https://github.com/kriasoft/react-starter-kit) -
+a skeleton for an isomorphic web application (SPA)
 
 ## License
 

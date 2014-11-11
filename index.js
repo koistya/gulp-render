@@ -36,11 +36,12 @@ function appendJsxPragma(filename, contents) {
  * into the specified layout, then render to a string.
  */
 function renderToString(page) {
-  var child = null, props = {};
-  while (page.defaultProps && page.defaultProps.layout) {
+  var layout = null, child = null, props = {};
+  while ((layout = page.type.layout || (page.defaultProps && page.defaultProps.layout))) {
     child = React.createElement(page, props, child);
     _.extend(props, page.defaultProps);
-    page = page.defaultProps.layout;
+    React.renderToString(React.createElement(page, props, child));
+    page = layout;
   }
   return React.renderToString(React.createElement(page, props, child));
 }
@@ -97,10 +98,14 @@ function Plugin(options) {
           var markup = renderToString(Component);
 
           if (options.template) {
-            var data = Component.defaultProps || {};
+            var data = _.extend({}, (typeof(options.data) == 'function' ? options.data(file) : options.data));
             data.body = markup;
+
+            // Set default values to avoid null-reference exceptions
             data.title = data.title || '';
             data.description = data.description || '';
+            data.keywords = data.keywords || '';
+
             markup = template(options.template, data);
           }
 
