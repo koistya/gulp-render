@@ -51,7 +51,10 @@ function Plugin(options) {
 
   options = options || {};
 
-  var reactOptions = {harmony: typeof options.harmony === 'undefined' ? true : options.harmony};
+  var reactOptions = {
+    harmony: typeof options.harmony === 'undefined' ? true : options.harmony,
+    stripTypes: typeof options.stripTypes === 'undefined' ? true : options.stripTypes
+  };
 
   if (options.template && options.template.indexOf('<') === -1) {
     options.template = fs.readFileSync(options.template, {encoding: 'utf8'});

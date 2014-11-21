@@ -1,7 +1,7 @@
 {
   "name": "gulp-render",
   "description": "Pre-render React components at compile time. E.g. SomePage.jsx -> some-page.html",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/koistya/gulp-render",
   "repository": {
     "type": "git",
@@ -31,12 +31,12 @@
   "dependencies": {
     "gulp-util": "^3.0.1",
     "lodash": "^2.4.1",
-    "react": "^0.12.0",
-    "react-tools": "^0.12.0",
+    "react": "^0.12.1",
+    "react-tools": "^0.12.1",
     "through2": "^0.6.3"
   },
   "devDependencies": {
-    "jshint": "^2.5.7",
+    "jshint": "^2.5.10",
     "mocha": "^2.0.1"
   },
   "scripts": {
