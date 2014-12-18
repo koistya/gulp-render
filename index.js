@@ -46,6 +46,14 @@ function renderToString(page) {
   return React.renderToString(React.createElement(page, props, child));
 }
 
+/**
+ * Just produce static markup without data-react-* attributes
+ * http://facebook.github.io/react/docs/top-level-api.html#react.rendertostaticmarkup
+ */
+function renderToStaticMarkup(page) {
+  return React.renderToStaticMarkup(React.createElement(page));
+}
+
 // Plugin level function (dealing with files)
 function Plugin(options) {
 
@@ -98,7 +106,7 @@ function Plugin(options) {
           m.paths = module.paths.slice(1);
           m._compile(contents, file.path);
           var Component = m.exports;
-          var markup = renderToString(Component);
+          var markup = options.staticMarkup ? renderToStaticMarkup(Component) : renderToString(Component);
 
           if (options.template) {
             var data = _.extend({}, (typeof(options.data) == 'function' ? options.data(file) : options.data));

@@ -72,13 +72,14 @@ module.exports = SomePage;
 
 #### `render(options)`
 
-option       | values                                                      | default
--------------|-------------------------------------------------------------|---------
-`template`   | [Lo-Dash template](http://lodash.com/docs#template) string or filename | `null`
-`harmony`    | `true`: enable ES6 features                                 | `true`
-`stripTypes` | `true`: enable [Flow](http://flowtype.org) type annotations | `true`
-`hyphenate`  | `true`: SomePage.jsx -> some-page.html                      | `true`
-`data     `  | E.g. `{title: 'Hello'}` or `function(file) { ... }`         | `object` or `function`
+option         | values                                                                 | default
+---------------|------------------------------------------------------------------------|--------
+`template`     | [Lo-Dash template](http://lodash.com/docs#template) string or filename | `null`
+`harmony`      | `true`: enable ES6 features                                            | `true`
+`stripTypes`   | `true`: enable [Flow](http://flowtype.org) type annotations            | `true`
+`hyphenate`    | `true`: SomePage.jsx -> some-page.html                                 | `true`
+`staticMarkup` | `true`: HTML output will not have `data-react-*` attributes            | `false`
+`data     `    | E.g. `{title: 'Hello'}` or `function(file) { ... }`                    | `object` or `function`
 
 ## Related Projects
 
