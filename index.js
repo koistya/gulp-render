@@ -106,7 +106,7 @@ function Plugin(options) {
           m.paths = module.paths.slice(1);
           m._compile(contents, file.path);
           var Component = m.exports;
-          var markup = options.toStatic ? renderToStaticMarkup(Component) : renderToString(Component);
+          var markup = options.staticMarkup ? renderToStaticMarkup(Component) : renderToString(Component);
 
           if (options.template) {
             var data = _.extend({}, (typeof(options.data) == 'function' ? options.data(file) : options.data));
