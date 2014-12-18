@@ -66,6 +66,32 @@ it('Should render a simple React component with a template', function(cb) {
 
 });
 
+it('Should render a simple React component as static markup', function(cb) {
+
+  var stream = render({
+    staticMarkup: true
+  });
+
+  stream.on('data', function(file) {
+    var contents = file.contents.toString('utf8');
+    assert(contents.indexOf('data-react') === -1);
+    cb();
+  });
+
+  stream.write(new gutil.File({
+    path: 'SampleComponent.jsx',
+    cwd: __dirname,
+    contents: new Buffer(
+      'var React = require("./node_modules/react"); ' +
+      'var HelloMessage = React.createClass({' +
+      '  render: function() {return React.DOM.div(null, "Hello world!");}' +
+      '}); '+
+      'module.exports = HelloMessage;'
+    )
+  }));
+
+});
+
 it('Should render a simple React component with a template and data function', function(cb) {
 
   var stream = render({
